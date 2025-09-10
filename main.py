@@ -121,7 +121,8 @@ class Gestion:
                                 nombre = input('Nombre Cliente: ')
                                 cliente_tmp = Cliente(nit, nombre)
                                 self.diccionario_clientes[nit] = cliente_tmp  # Se agrega con exito el ciente
-                                pedido_tmp = Pedidos(self.diccionario_clientes[nit])  # Se crea el pedido y luego ya se le colocan las atribuciones
+                                pedido_tmp = Pedidos(self.diccionario_clientes[nit])
+                                self.diccionario_pedidos[id_pedido] = pedido_tmp# Se crea el pedido y luego ya se le colocan las atribuciones
                                 break
 
                         while True:
