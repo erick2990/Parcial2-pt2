@@ -144,6 +144,7 @@ class Gestion:
                         if not self.diccionario_pedidos:
                             print('Aún mno hay pedidos realizados')
                         else:
+                            print('Pedidos Urgentes: ')
 
                     case 4:
                         pass
