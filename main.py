@@ -69,6 +69,15 @@ class Gestion:
     def __init(self):
         self.diccionario_productos = {}
         self.diccionario_pedidos = {}
+        self.diccionario_clientes = {}
+
+
+    def existencia_codigo(self, codigo):
+        if codigo in self.diccionario_productos:
+            return True
+        else:
+            return False
+
 
     def vender(self):
         fin_menu = True
@@ -76,7 +85,7 @@ class Gestion:
             try:
                 print('\t\t==Bienvenido Uusario:==')
                 print('1. Ingresar Productos')
-                print('2. Registrar Pedidos, 2.Listar Pedidos Urgentes primero, 3. Salir')
+                print('2. Registrar Pedidos, \n3.Listar Pedidos Urgentes primero \n4. Salir')
                 opcion = int(input('Ingrese la opción que desea ingresar: '))
                 match opcion:
                     case 1:
@@ -88,15 +97,54 @@ class Gestion:
                             if nombre.upper() == "N":
                                 print('Saliendo')
                                 break
-
+                            else:
+                                while True:
+                                    precio = int(input('Precio: '))
+                                    if precio > 0:
+                                        print('Producto añadido con exito')
+                                        producto_tmp = Producto(codigo, nombre, precio)
+                                        self.diccionario_productos[codigo] = producto_tmp
+                                        return
+                                    else:
+                                        print('El precio debe ser mayor a 0 ')
 
                     case 2:
                         while True:
+                            print('Presione N/n para finalizar el pedido: ')
+                            id_pedido = len(self.diccionario_pedidos)
+                            nit = input('NIT: ')
+                            if nit in self.diccionario_clientes:
+                                print('Cliente existe')
+                                break
+                            else:
+                                print('Ingreso de un nuevo cliente complete datos')
+                                nombre = input('Nombre Cliente: ')
+                                cliente_tmp = Cliente(nit, nombre)
+                                self.diccionario_clientes[nit] = cliente_tmp  # Se agrega con exito el ciente
+                                pedido_tmp = Pedidos(self.diccionario_clientes[nit])  # Se crea el pedido y luego ya se le colocan las atribuciones
+                                break
+
+                        while True:
                             print('Presione 0 para finalizar el pedido: ')
+                            codigo = int(input('Ingrese el codigo del producto: '))
+                            if self.existencia_codigo(codigo):
+                                print(f'Cuantas unidades desea llevarse de {self.diccionario_productos[codigo]}: ')
+                                cantidad_producto = int(input())
+                                pedido_tmp.agregar_a_pedido(self.diccionario_productos[codigo], cantidad_producto)
+
+                            if codigo ==0:
+                                print('Cancelando el pedido')
+                                return
+                            else:
+                                print('Este codigo no existe por favor ingrese uno correcto')
+
 
 
                     case 3:
-                        pass
+                        if not self.diccionario_pedidos:
+                            print('Aún mno hay pedidos realizados')
+                        else:
+
                     case 4:
                         pass
                     case _:
